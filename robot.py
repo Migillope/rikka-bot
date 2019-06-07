@@ -19,6 +19,7 @@ import Mods.beemovie as beemovie
 import Mods.xkcd as xkcd
 import Mods.wolfram as wolfram
 import Mods.colors as colors
+import Mods.reddit as reddit
 from pushbullet import Pushbullet
 
 # Auth tokens
@@ -424,6 +425,16 @@ async def on_message(message):
                 await message.channel.send(msg)
             else:
                 await message.channel.send(embed=image)
+
+    elif message.content.lower().startswith(command("reddit"), message)):
+        data = reddit.fetchRedditPost(getRawArgument(command("reddit",message),message))
+        embed=discord.Embed(color=0xff0000,title="Error",description="That's not a valid subreddit, baaka~")
+        if data["successful"]:
+            embed = discord.Embed(color=0xff6e00,title=data["title"],description=data["description"])
+            embed.set_footer(text=data["footer"])
+            if data["type"] == "image":
+                embed.set_image(url=data["imgurl"])
+        await message.channel.send(embed=embed)
 
     elif message.content.lower().startswith(command("raffle", message)):
         nbusers = []
