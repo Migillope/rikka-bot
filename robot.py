@@ -426,7 +426,7 @@ async def on_message(message):
             else:
                 await message.channel.send(embed=image)
 
-    elif message.content.lower().startswith(command("reddit"), message)):
+    elif message.content.lower().startswith(command("reddit"), message):
         data = reddit.fetchRedditPost(getRawArgument(command("reddit",message),message))
         embed=discord.Embed(color=0xff0000,title="Error",description="That's not a valid subreddit, baaka~")
         if data["successful"]:
